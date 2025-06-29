@@ -6,7 +6,7 @@ export const registerRateLimiter = rateLimit({
 	max: 10,
 	message: {
 		errorMessage:
-			"Too many login attempts. Please try again after 20 minutes.",
+			"Too many register attempts. Please try again after 20 minutes.",
 	},
 	standardHeaders: true,
 	legacyHeaders: false,
@@ -26,7 +26,7 @@ export const forgotPassRateLimiter = rateLimit({
 	max: 3,
 	message: {
 		errorMessage:
-			"Too many login attempts. Please try again after 20 minutes.",
+			"Too many attempts. Please try again after 20 minutes.",
 	},
 	standardHeaders: true,
 	legacyHeaders: false,
@@ -36,7 +36,7 @@ export const resetPassRateLimiter = rateLimit({
 	max: 5,
 	message: {
 		errorMessage:
-			"Too many login attempts. Please try again after 20 minutes.",
+			"Too many attempts. Please try again after 20 minutes.",
 	},
 	standardHeaders: true,
 	legacyHeaders: false,
