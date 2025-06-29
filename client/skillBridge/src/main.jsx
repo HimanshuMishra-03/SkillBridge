@@ -15,6 +15,8 @@ import EditJobs from './components/pages/EditJobs.jsx'
 import ViewApplications from './components/pages/ViewApplications.jsx'
 import HomePage from './components/HomePage.jsx'
 import GetMyJobs from './components/pages/GetMyJobs.jsx'
+import PostJobs from './components/pages/PostJobs.jsx'
+import GetAllJobs from './components/pages/GetAllJobs.jsx'
 
 const router = createBrowserRouter(
   // routing happens here 
@@ -33,6 +35,8 @@ const router = createBrowserRouter(
       <Route path='/job-edit/:id' element={<EditJobs />} />
       <Route path='/view-applications/:jobId' element={<ViewApplications />} />
       <Route path='/client/my-jobs' element={<GetMyJobs />} />
+      <Route path='/client/post-jobs' element={<PostJobs />} />
+      <Route path='/freelancer/all-jobs' element={<GetAllJobs />} />
     </Route>
   )
 )

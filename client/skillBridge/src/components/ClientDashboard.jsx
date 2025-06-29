@@ -1,9 +1,10 @@
 import React from "react";
 import { jwtDecode } from "jwt-decode";
-import { Box, Typography, Container } from "@mui/material";
-import GetMyJobs from "./pages/GetMyJobs";
+import { Box, Typography, Button, Container, Stack } from "@mui/material";
+import { useNavigate } from "react-router";
 
 function ClientDashboard() {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   let decoded = {};
@@ -68,19 +69,65 @@ function ClientDashboard() {
         bgcolor: "#0d1b2a",
         p: 3,
         boxSizing: "border-box",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <Typography
-          variant="h4"
-          mb={4}
+          variant="h3"
+          mb={6}
           color="#00bcd4"
-          fontWeight="bold"
+          fontWeight="900"
           textAlign="center"
+          letterSpacing={1}
         >
-          Client Dashboard
+          CLIENT DASHBOARD
         </Typography>
-        <GetMyJobs />
+
+        <Stack spacing={4}>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              py: 3,
+              fontSize: "1.5rem",
+              borderRadius: "16px",
+              bgcolor: "#00bcd4",
+              color: "#000",
+              fontWeight: "bold",
+              width: "100%",
+              "&:hover": {
+                bgcolor: "#00acc1",
+              },
+            }}
+            onClick={() => navigate("/client/post-jobs")}
+          >
+            🚀 Post a New Job
+          </Button>
+
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              py: 3,
+              fontSize: "1.5rem",
+              borderRadius: "16px",
+              borderColor: "#00bcd4",
+              color: "#00bcd4",
+              fontWeight: "bold",
+              width: "100%",
+              "&:hover": {
+                bgcolor: "#00bcd4",
+                color: "#000",
+              },
+            }}
+            onClick={() => navigate("/client/my-jobs")}
+          >
+            📂 View My Jobs
+          </Button>
+        </Stack>
       </Container>
     </Box>
   );

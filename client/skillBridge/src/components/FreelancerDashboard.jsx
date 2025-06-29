@@ -1,10 +1,11 @@
 import React from "react";
 import { jwtDecode } from "jwt-decode";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Container, Button, Stack } from "@mui/material";
+import { useNavigate } from "react-router";
 import FullScreenLayout from "./FullScreeLayout.jsx";
-import GetAllJobs from "./pages/GetAllJobs";
 
 function FreelancerDashboard() {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -48,9 +49,63 @@ function FreelancerDashboard() {
 
   return (
     <FullScreenLayout>
-      <Box width="100%">
-        <GetAllJobs />
-      </Box>
+      <Container maxWidth="md">
+        <Typography
+          variant="h3"
+          mb={6}
+          color="#00bcd4"
+          fontWeight="900"
+          textAlign="center"
+          letterSpacing={1}
+        >
+          FREELANCER DASHBOARD
+        </Typography>
+
+        <Stack spacing={4}>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              py: 3,
+              fontSize: "1.5rem",
+              borderRadius: "16px",
+              bgcolor: "#00bcd4",
+              color: "#000",
+              fontWeight: "bold",
+              width: "100%",
+              "&:hover": {
+                bgcolor: "#00acc1",
+              },
+            }}
+            onClick={() => navigate("/freelancer/all-jobs")}
+          >
+            🔍 View All Available Jobs
+          </Button>
+
+          {/* You can add more options later like this:
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{
+              py: 3,
+              fontSize: "1.5rem",
+              borderRadius: "16px",
+              borderColor: "#00bcd4",
+              color: "#00bcd4",
+              fontWeight: "bold",
+              width: "100%",
+              "&:hover": {
+                bgcolor: "#00bcd4",
+                color: "#000",
+              },
+            }}
+            onClick={() => navigate("/freelancer/applied-jobs")}
+          >
+            📁 View Applied Jobs
+          </Button> 
+          */}
+        </Stack>
+      </Container>
     </FullScreenLayout>
   );
 }
