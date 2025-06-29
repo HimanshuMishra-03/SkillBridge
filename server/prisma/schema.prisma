@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+  model User {
+    id          String      @id @default(uuid())
+    username        String
+    email       String      @unique
+    password    String
+    role        Role        @default(CLIENT)
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+
+    client Client?
+    freelancer Freelancer?
+  }
+
+  model Client {
+    userId      String   @id
+    companyName String?
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    job         Job[]
+  }
+
+model Freelancer {
+  userId      String   @id
+  bio         String?
+  skills      String[]
+  githubId    String?
+  rating      Float?   @default(0)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applications Application[]
+}
+
+enum Role {
+  CLIENT
+  FREELANCER
+  ADMIN
+}
+
+model Job {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  budget      Int
+  deadline    DateTime
+  createdAt   DateTime   @default(now())
+  modifiedAt  DateTime   @updatedAt
+
+  clientId    String
+  client      Client     @relation(fields: [clientId], references: [userId])
+
+  applications Application[]
+}
+
+model Application {
+  id           String     @id @default(uuid())
+  coverLetter  String
+  proposedBudget Int
+  duration      Int         // in days
+  createdAt     DateTime    @default(now())
+  
+  jobId        String
+  job          Job         @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  freelancerId String
+  freelancer   Freelancer  @relation(fields: [freelancerId], references: [userId])
+}
+
+
+
