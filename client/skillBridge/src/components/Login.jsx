@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link } from "react-router"; 
 import {
 	Box,
 	Button,
@@ -48,8 +48,7 @@ function Login() {
 			});
 
 			if (decoded.role === "CLIENT") navigate("/client-dashboard");
-			else if (decoded.role === "FREELANCER")
-				navigate("/freelancer-dashboard");
+			else if (decoded.role === "FREELANCER") navigate("/freelancer-dashboard");
 			else navigate("/admin-dashboard");
 		} catch (err) {
 			setSnackbar({
@@ -69,20 +68,44 @@ function Login() {
 
 	return (
 		<FullScreenLayout>
+					{/* 👇 Back Button */}
+					<Button
+					  variant="outlined"
+					  onClick={() => navigate(-1)}
+					  sx={{
+						alignSelf: "flex-start",
+						mb: 1,
+						color: "#00e5ff",
+						borderColor: "#00bcd4",
+						textTransform: "none",
+						"&:hover": {
+						  borderColor: "#00acc1",
+						  color: "#00bcd4",
+						},
+					  }}
+					>
+					  ← Back
+					</Button>
 			<Box
 				component="form"
 				onSubmit={handleSubmit}
-				maxWidth={400}
-				width="100%"
-				mx="auto"
-				display="flex"
-				flexDirection="column"
-				gap={2}
 				sx={{
+					width: {
+						xs: "90vw",
+						sm: "80vw",
+						md: "25vw",
+					},
 					backgroundColor: "#142a4c",
-					padding: 4,
+					padding: {
+						xs: 3,
+						sm: 4,
+					},
 					borderRadius: 2,
 					boxShadow: "0 0 15px rgba(0,0,0,0.6)",
+					display: "flex",
+					flexDirection: "column",
+					gap: 2,
+					mx: "auto",
 				}}
 			>
 				<Typography
@@ -90,6 +113,7 @@ function Login() {
 					align="center"
 					fontWeight="bold"
 					color="#00bcd4"
+					sx={{ fontSize: { xs: "1.8rem", sm: "2rem" } }}
 				>
 					Login
 				</Typography>
@@ -104,7 +128,10 @@ function Login() {
 					variant="filled"
 					InputProps={{ style: { color: "#e0f7fa" } }}
 					InputLabelProps={{ style: { color: "#80deea" } }}
-					sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+					sx={{
+						backgroundColor: "#0d1b2a",
+						borderRadius: 1,
+					}}
 				/>
 
 				<TextField
@@ -118,7 +145,10 @@ function Login() {
 					variant="filled"
 					InputProps={{ style: { color: "#e0f7fa" } }}
 					InputLabelProps={{ style: { color: "#80deea" } }}
-					sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+					sx={{
+						backgroundColor: "#0d1b2a",
+						borderRadius: 1,
+					}}
 				/>
 
 				<Button

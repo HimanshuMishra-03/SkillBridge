@@ -33,7 +33,7 @@ const forgotPass = async (req, res) => {
 		const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
 			expiresIn: "15m",
 		});
-		const resetLink = `http://localhost:5173/reset-password?token=${token}`;
+		const resetLink = `https://skill-bridge-lilac.vercel.app/reset-password?token=${token}`;
 		await transporter.sendMail({
 			from: `"Skill Bridge" <${process.env.EMAIL_USER}>`,
 			to: recieverEmail,
@@ -41,8 +41,9 @@ const forgotPass = async (req, res) => {
 			html: `
       <h2>Reset Your Password</h2>
       <p>Click below to reset:</p>
-      <a href="${resetLink}">${resetLink}</a>
+      <a href="${resetLink}">Click this link to reset password.</a>
       <p>This link will expire in 15 minutes.</p>
+      <p>If you didn't requested this please ignore this mail!</p>
     `,
 		});
         return res.status(200).json({message: "Email Sent"})

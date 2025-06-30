@@ -8,7 +8,7 @@ const jobPost = async (req, res) => {
 	const { title, description, budget, deadline, token } = req.body;
 	try {
         // Checking validity of input 
-		if (!title || !description || !budget || !deadline || !token) {
+		if (!title || !description || !budget || !deadline) {
 			return res.status(400).json({ message: "All fields are required" });
 		}
         // Is budget a number
@@ -19,9 +19,9 @@ const jobPost = async (req, res) => {
         if(isNaN(new Date(deadline).getTime())) return res.status(400).json({message: "Invalid Date selection"})
         if(currentDate>deadlineDate) return res.status(400).json({message: "Invalid date"})
         // Verifying Token 
-		const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-		if (decoded) {
-			const clientId = decoded.id;
+		const {id} = req.user
+		if (id) {
+			const clientId = id;
 			const job = await prisma.job.findFirst({
 				where: { title, clientId },
 			});

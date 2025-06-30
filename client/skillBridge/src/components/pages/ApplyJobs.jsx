@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useParams } from "react-router";
 import {
@@ -12,16 +12,27 @@ import {
 import axios from "axios";
 import API_BASE_URL from "../../config/api";
 function ApplyJobs() {
-  const token = localStorage.getItem("token");
-  if (!token) return <h1>Please login first</h1>;
-  let decoded = {};
-  try {
-    decoded = jwtDecode(token);
-  } catch (err) {
-    return <h1>Invalid token</h1>;
-  }
+  const[decoded, setDecoded] = useState(null)
+  const[error, setError] = useState("")
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+		if (!token) {
+			setError("Please login first");
+			return;
+		}
+		try {
+			const decodedToken = jwtDecode(token);
+			if (decodedToken.role !== "FREELANCER") {
+				setError("You are not authorised to view this page");
+				return;
+			}
+			setDecoded(decodedToken);
+		} catch (err) {
+			setError("Invalid token");
+		}
+  }, [])
 
-  if (decoded.role !== "FREELANCER") return <h1>You are not authorised to view this page</h1>;
+  // if (decoded.role !== "FREELANCER") return <h1>You are not authorised to view this page</h1>;
 
   const { id: jobId } = useParams(); // Get jobId from URL
   const [formData, setFormData] = useState({

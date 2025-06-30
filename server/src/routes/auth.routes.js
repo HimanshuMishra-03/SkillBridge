@@ -8,14 +8,14 @@ import { loginRateLimiter, registerRateLimiter, forgotPassRateLimiter, resetPass
 const router = express.Router();
 
 //register
-router.post("/register", register);
-// router.post("/register", registerRateLimiter, register);
+// router.post("/register", register);
+router.post("/register", registerRateLimiter, register);
 //login
-router.post("/login", login);
-// router.post("/login", loginRateLimiter, login);
+// router.post("/login", login);
+router.post("/login", loginRateLimiter, login);
 //forgotPassword
-router.post("/forgotPass", forgotPass);
-// router.post("/forgotPass", forgotPassRateLimiter, forgotPass);
+// router.post("/forgotPass", forgotPass);
+router.post("/forgotPass", forgotPassRateLimiter, forgotPass);
 //resetPassword
 router.post("/resetPass", resetPassRateLimiter, resetPass);
 

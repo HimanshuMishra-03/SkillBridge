@@ -23,17 +23,27 @@ import FullScreenLayout from "../FullScreeLayout.jsx";
 import API_BASE_URL from "../../config/api.js";
 
 const GetMyJobs = () => {
-	const token = localStorage.getItem("token");
+	const [decoded, setDecoded] = useState(null);
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
-
-	if (!token) return <h1>Please login first</h1>;
-
-	let decoded = {};
-	try {
-		decoded = jwtDecode(token);
-	} catch (err) {
-		return <h1>Invalid token</h1>;
-	}
+	useEffect(()=>{
+		const token = localStorage.getItem("token");
+		if (!token) {
+			setError("Please login first");
+			navigate('/login');
+			return;
+		}
+		try {
+			const decodedToken = jwtDecode(token);
+			if (decodedToken.role !== "CLIENT") {
+				setError("You are not authorised to view this page");
+				return;
+			}
+			setDecoded(decodedToken);
+		} catch (err) {
+			setError("Invalid token");
+		}
+	}, [])
 
 	if (decoded.role !== "CLIENT")
 		return <h1>You are not authorised to view this page</h1>;

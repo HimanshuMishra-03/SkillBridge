@@ -18,15 +18,26 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import API_BASE_URL from "../../config/api";
 
 const EditJobs = () => {
-  const token = localStorage.getItem("token");
-  if (!token) return <h1>Session Expired</h1>;
-  let decoded = {};
-  try {
-    decoded = jwtDecode(token);
-  } catch (error) {
-    console.log(error);
-  }
-  if (decoded.role !== "CLIENT") return <h1>You are not authorised, keep your nose out of it!</h1>;
+  const [decoded, setDecoded] = useState(null)
+  const [error, setError] = useState("")
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+		if (!token) {
+			setError("Please login first");
+			return;
+		}
+		try {
+			const decodedToken = jwtDecode(token);
+			if (decodedToken.role !== "CLIENT") {
+				setError("You are not authorised to view this page");
+				return;
+			}
+			setDecoded(decodedToken);
+		} catch (err) {
+			setError("Invalid token");
+		}
+  }, [])
+  // if (decoded.role !== "CLIENT") return <h1>You are not authorised, keep your nose out of it!</h1>;
 
   const { id } = useParams();
   const [jobDetails, setJobDetails] = useState({

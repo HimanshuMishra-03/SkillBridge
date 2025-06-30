@@ -5,14 +5,14 @@ const FullScreenLayout = ({ children }) => {
 	return (
 		<Box
 			sx={{
-				height: "100vh",
+				minHeight: "100vh", // ✅ fixes mobile height issues
 				width: "100vw",
 				backgroundColor: "#0d1b2a",
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
 				px: 2,
-				overflow: "hidden",
+				overflowY: "auto", // ✅ allow scroll if content overflows
 				boxSizing: "border-box",
 			}}
 		>
@@ -20,9 +20,10 @@ const FullScreenLayout = ({ children }) => {
 				sx={{
 					width: "100%",
 					maxWidth: 1000,
-					textAlign: "center",
-					mx: "auto",
-					px: 2,
+					px: { xs: 2, sm: 4 },
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "center",
 				}}
 			>
 				{children}

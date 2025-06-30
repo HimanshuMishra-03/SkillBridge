@@ -73,55 +73,90 @@ function ResetPassword() {
 
   return (
     <FullScreenLayout>
-      <Box maxWidth={400} mx="auto" px={2}>
+              {/* 👇 Back Button */}
+              <Button
+                variant="outlined"
+                onClick={() => navigate(-1)}
+                sx={{
+                  alignSelf: "flex-start",
+                  mb: 1,
+                  color: "#00e5ff",
+                  borderColor: "#00bcd4",
+                  textTransform: "none",
+                  "&:hover": {
+                    borderColor: "#00acc1",
+                    color: "#00bcd4",
+                  },
+                }}
+              >
+                ← Back
+              </Button>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        maxWidth={400}
+        width="100%"
+        display="flex"
+        flexDirection="column"
+        gap={2}
+        sx={{
+          backgroundColor: "#142a4c",
+          padding: 4,
+          borderRadius: 2,
+          boxShadow: "0 0 15px rgba(0,0,0,0.6)",
+        }}
+      >
         <Typography
           variant="h5"
-          mb={2}
-          sx={{ color: "#00bcd4", textAlign: "center", fontWeight: "bold" }}
+          textAlign="center"
+          fontWeight="bold"
+          color="#00bcd4"
         >
           Reset Password
         </Typography>
 
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="New Password"
-            name="password"
-            type="password"
-            fullWidth
-            required
-            value={formData.password}
-            onChange={handleChange}
-            margin="normal"
-            InputProps={{ sx: { color: "#fff" } }}
-            InputLabelProps={{ sx: { color: "#aaa" } }}
-          />
-          <TextField
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            fullWidth
-            required
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            margin="normal"
-            InputProps={{ sx: { color: "#fff" } }}
-            InputLabelProps={{ sx: { color: "#aaa" } }}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{
-              mt: 2,
-              backgroundColor: "#00bcd4",
-              color: "#0d1b2a",
-              fontWeight: "bold",
-              "&:hover": { backgroundColor: "#00acc1" },
-            }}
-          >
-            Reset Password
-          </Button>
-        </form>
+        <TextField
+          label="New Password"
+          name="password"
+          type="password"
+          fullWidth
+          required
+          value={formData.password}
+          onChange={handleChange}
+          variant="filled"
+          InputProps={{ style: { color: "#e0f7fa" } }}
+          InputLabelProps={{ style: { color: "#80deea" } }}
+          sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+        />
+
+        <TextField
+          label="Confirm Password"
+          name="confirmPassword"
+          type="password"
+          fullWidth
+          required
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          variant="filled"
+          InputProps={{ style: { color: "#e0f7fa" } }}
+          InputLabelProps={{ style: { color: "#80deea" } }}
+          sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+        />
+
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          size="large"
+          sx={{
+            backgroundColor: "#00bcd4",
+            color: "#0d1b2a",
+            fontWeight: "bold",
+            "&:hover": { backgroundColor: "#00acc1" },
+          }}
+        >
+          Reset Password
+        </Button>
 
         <Snackbar
           open={snackbar.open}

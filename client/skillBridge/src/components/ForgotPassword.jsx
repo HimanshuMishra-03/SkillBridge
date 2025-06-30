@@ -9,6 +9,7 @@ import {
 	Alert,
 } from "@mui/material";
 import API_BASE_URL from "../config/api";
+import FullScreenLayout from "./FullScreeLayout.jsx";
 
 function ForgotPassword() {
 	const [identifier, setIdentifier] = useState("");
@@ -46,46 +47,74 @@ function ForgotPassword() {
 	};
 
 	return (
-		<Box maxWidth={400} mx="auto" mt={5}>
-			<Typography variant="h5" mb={2}>
-				Forgot Password
-			</Typography>
+		<FullScreenLayout>
+			<Box
+				component="form"
+				onSubmit={handleSubmit}
+				maxWidth={400}
+				width="100%"
+				display="flex"
+				flexDirection="column"
+				gap={2}
+				sx={{
+					backgroundColor: "#142a4c",
+					p: 4,
+					borderRadius: 2,
+					boxShadow: "0 0 15px rgba(0,0,0,0.6)",
+				}}
+			>
+				<Typography
+					variant="h5"
+					textAlign="center"
+					fontWeight="bold"
+					color="#00bcd4"
+				>
+					Forgot Password
+				</Typography>
 
-			<form onSubmit={handleSubmit}>
 				<TextField
 					label="Email or Username"
 					fullWidth
 					required
+					variant="filled"
 					value={identifier}
 					onChange={(e) => setIdentifier(e.target.value)}
-					margin="normal"
+					InputProps={{ style: { color: "#e0f7fa" } }}
+					InputLabelProps={{ style: { color: "#80deea" } }}
+					sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
 				/>
+
 				<Button
 					type="submit"
 					variant="contained"
-					color="primary"
 					fullWidth
-					sx={{ mt: 2 }}
+					size="large"
+					sx={{
+						backgroundColor: "#00bcd4",
+						color: "#0d1b2a",
+						fontWeight: "bold",
+						"&:hover": { backgroundColor: "#00acc1" },
+					}}
 				>
 					Send Reset Link
 				</Button>
-			</form>
 
-			<Snackbar
-				open={snackbar.open}
-				autoHideDuration={4000}
-				onClose={handleCloseSnackbar}
-				anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-			>
-				<Alert
+				<Snackbar
+					open={snackbar.open}
+					autoHideDuration={4000}
 					onClose={handleCloseSnackbar}
-					severity={snackbar.severity}
-					sx={{ width: "100%" }}
+					anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
 				>
-					{snackbar.message}
-				</Alert>
-			</Snackbar>
-		</Box>
+					<Alert
+						onClose={handleCloseSnackbar}
+						severity={snackbar.severity}
+						sx={{ width: "100%" }}
+					>
+						{snackbar.message}
+					</Alert>
+				</Snackbar>
+			</Box>
+		</FullScreenLayout>
 	);
 }
 
