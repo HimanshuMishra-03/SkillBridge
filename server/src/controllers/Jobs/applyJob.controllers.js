@@ -9,12 +9,12 @@ const applyJob = async(req, res)=>{
     const { coverLetter, proposedBudget, duration } = req.body
     const { id:jobId } = req.params
     if(!jobId) return res.status(400).json({message: "JobId does not exist!"})
-    const token = req.headers.authorization?.split(" ")[1]
-    let decoded = {}
+    const {id} = req.user
+    
     try {
-        decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+        
         const applicationExist = await prisma.application.findFirst({
-            where: {freelancerId : decoded.id, jobId},
+            where: {freelancerId : id, jobId},
             include: {
                 freelancer : true
             }
@@ -26,7 +26,7 @@ const applyJob = async(req, res)=>{
                 proposedBudget : parseInt(proposedBudget, 10),
                 duration: parseInt(duration, 10),
                 jobId,
-                freelancerId: decoded.id
+                freelancerId: id
             }
         })
         return res.status(200).json({message: "Application Sent Successfully!"})
