@@ -42,6 +42,9 @@ function FreelancerDashboard() {
           <Typography variant="h5" color="#ff1744">
             You are not authorised to view this page
           </Typography>
+          <Button onClick={()=>navigate('/login')}>
+            Go Back!
+          </Button>
         </Box>
       </FullScreenLayout>
     );

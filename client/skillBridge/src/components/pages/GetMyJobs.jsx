@@ -101,7 +101,7 @@ const GetMyJobs = () => {
 			{/* 👇 Back Button */}
 					<Button
 					  variant="outlined"
-					  onClick={() => navigate(-1)}
+					  onClick={() => navigate('/client-dashboard')}
 					  sx={{
 						alignSelf: "flex-start",
 						mb: 1,
@@ -118,7 +118,7 @@ const GetMyJobs = () => {
 					</Button>
 			<Box
 				sx={{
-					maxWidth: "900px",
+					maxWidth: "50vw",
 					mx: "auto",
 					px: 2,
 					py: 5,

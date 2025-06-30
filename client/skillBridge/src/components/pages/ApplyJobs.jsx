@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useParams } from "react-router";
 import {
@@ -11,30 +11,10 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import API_BASE_URL from "../../config/api";
+import FullScreenLayout from "../FullScreeLayout"; // ✅ Add the layout import
+
 function ApplyJobs() {
-  const[decoded, setDecoded] = useState(null)
-  const[error, setError] = useState("")
-  useEffect(()=>{
-    const token = localStorage.getItem("token");
-		if (!token) {
-			setError("Please login first");
-			return;
-		}
-		try {
-			const decodedToken = jwtDecode(token);
-			if (decodedToken.role !== "FREELANCER") {
-				setError("You are not authorised to view this page");
-				return;
-			}
-			setDecoded(decodedToken);
-		} catch (err) {
-			setError("Invalid token");
-		}
-  }, [])
-
-  // if (decoded.role !== "FREELANCER") return <h1>You are not authorised to view this page</h1>;
-
-  const { id: jobId } = useParams(); // Get jobId from URL
+  const { id: jobId } = useParams();
   const [formData, setFormData] = useState({
     coverLetter: "",
     proposedBudget: "",
@@ -43,6 +23,34 @@ function ApplyJobs() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
   const [severity, setSeverity] = useState("success");
+
+  const [token, setToken] = useState(null);
+  const [decoded, setDecoded] = useState(null);
+  const [error, setError] = useState("");
+  const [ready, setReady] = useState(false);
+
+  // ✅ Handle token + decoding safely
+  useEffect(() => {
+    const t = localStorage.getItem("token");
+    if (!t) {
+      setError("Please login first");
+      setReady(true);
+      return;
+    }
+    try {
+      const dec = jwtDecode(t);
+      if (dec.role !== "FREELANCER") {
+        setError("You are not authorised to view this page");
+      } else {
+        setToken(t);
+        setDecoded(dec);
+      }
+    } catch {
+      setError("Invalid token");
+    } finally {
+      setReady(true);
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,116 +84,137 @@ function ApplyJobs() {
     }
   };
 
+  if (!ready) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
+
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        background: "linear-gradient(to bottom, #0f2027, #203a43, #2c5364)",
-        py: 5,
-        px: 2,
-        color: "#e0f7fa",
-      }}
-    >
+    <FullScreenLayout>
       <Box
         sx={{
-          maxWidth: 600,
-          mx: "auto",
-          p: 4,
-          borderRadius: 4,
-          background: "rgba(255, 255, 255, 0.05)",
-          boxShadow: "0 8px 30px rgba(0,229,255,0.15)",
-          border: "1px solid rgba(0,229,255,0.2)",
-          backdropFilter: "blur(10px)",
+          minHeight: "50vh",
+          py: 5,
+          px: 2,
+          color: "#e0f7fa",
+          // background: "linear-gradient(to bottom, #0f2027, #203a43, #2c5364)",
         }}
       >
-        <Typography
-          variant="h4"
-          gutterBottom
-          align="center"
+        <Box
           sx={{
-            fontWeight: 700,
-            color: "#00e5ff",
-            textShadow: "0 0 10px rgba(0,229,255,0.6)",
-            mb: 3,
+            maxWidth: 600,
+            mx: "auto",
+            p: 4,
+            borderRadius: 4,
+            backgroundColor: "#142a4c",
+            boxShadow: "0 0 15px rgba(0,0,0,0.6)",
+            // boxShadow: "0 8px 30px rgba(0,229,255,0.05)",
+            // border: "1px solid rgba(0,229,255,0.2)",
+            // backdropFilter: "blur(10px)",
           }}
         >
-          Apply for Job
-        </Typography>
-
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Cover Letter"
-            name="coverLetter"
-            value={formData.coverLetter}
-            onChange={handleChange}
-            multiline
-            rows={4}
-            margin="normal"
-            required
-            InputLabelProps={{ style: { color: "#00e5ff" } }}
-            InputProps={{
-              style: { color: "#e0f7fa" },
-            }}
-          />
-          <TextField
-            fullWidth
-            label="Proposed Budget"
-            name="proposedBudget"
-            type="number"
-            value={formData.proposedBudget}
-            onChange={handleChange}
-            margin="normal"
-            required
-            InputLabelProps={{ style: { color: "#00e5ff" } }}
-            InputProps={{
-              style: { color: "#e0f7fa" },
-            }}
-          />
-          <TextField
-            fullWidth
-            label="Duration (in days)"
-            name="duration"
-            type="number"
-            value={formData.duration}
-            onChange={handleChange}
-            margin="normal"
-            required
-            InputLabelProps={{ style: { color: "#00e5ff" } }}
-            InputProps={{
-              style: { color: "#e0f7fa" },
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            fullWidth
+          <Typography
+            variant="h4"
+            gutterBottom
+            align="center"
             sx={{
-              mt: 3,
-              backgroundColor: "#00e5ff",
-              color: "#001f3f",
-              fontWeight: 600,
-              "&:hover": {
-                backgroundColor: "#00bcd4",
-              },
+              fontWeight: 700,
+              color: "#00e5ff",
+              // textShadow: "0 0 10px rgba(0,229,255,0.6)",
+              mb: 3,
             }}
           >
-            Submit Application
-          </Button>
-        </form>
-      </Box>
+            Apply for Job
+          </Typography>
 
-      <Snackbar open={open} autoHideDuration={4000} onClose={() => setOpen(false)}>
-        <Alert
-          onClose={() => setOpen(false)}
-          severity={severity}
-          sx={{ width: "100%" }}
-        >
-          {message}
-        </Alert>
-      </Snackbar>
-    </Box>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              label="Cover Letter"
+              name="coverLetter"
+              variant="filled"
+              value={formData.coverLetter}
+              onChange={handleChange}
+              multiline
+              rows={4}
+              margin="normal"
+              required
+              InputLabelProps={{ style: { color: "#00e5ff" } }}
+              InputProps={{
+                style: { color: "#e0f7fa" },
+              }}
+              sx={{
+								backgroundColor: "#0d1b2a",
+								borderRadius: 1,
+							}}
+            />
+            <TextField
+              fullWidth
+              label="Proposed Budget"
+              name="proposedBudget"
+              variant="filled"
+              type="number"
+              value={formData.proposedBudget}
+              onChange={handleChange}
+              margin="normal"
+              required
+              InputLabelProps={{ style: { color: "#00e5ff" } }}
+              InputProps={{
+                style: { color: "#e0f7fa" },
+              }}
+              sx={{
+								backgroundColor: "#0d1b2a",
+								borderRadius: 1,
+							}}
+            />
+            <TextField
+              fullWidth
+              label="Duration (in days)"
+              name="duration"
+              variant="filled"
+              type="number"
+              value={formData.duration}
+              onChange={handleChange}
+              margin="normal"
+              required
+              InputLabelProps={{ style: { color: "#00e5ff" } }}
+              InputProps={{
+                style: { color: "#e0f7fa" },
+              }}
+              sx={{
+								backgroundColor: "#0d1b2a",
+								borderRadius: 1,
+							}}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              fullWidth
+              sx={{
+                mt: 3,
+                backgroundColor: "#00e5ff",
+                color: "#001f3f",
+                fontWeight: 600,
+                "&:hover": {
+                  backgroundColor: "#00bcd7",
+                },
+              }}
+            >
+              Submit Application
+            </Button>
+          </form>
+        </Box>
+
+        <Snackbar open={open} autoHideDuration={4000} onClose={() => setOpen(false)}>
+          <Alert
+            onClose={() => setOpen(false)}
+            severity={severity}
+            sx={{ width: "100%" }}
+          >
+            {message}
+          </Alert>
+        </Snackbar>
+      </Box>
+    </FullScreenLayout>
   );
 }
 

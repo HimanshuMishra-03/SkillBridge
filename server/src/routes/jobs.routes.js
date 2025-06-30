@@ -24,7 +24,7 @@ router.get('/:id', authenticateUser, detailedJobs)
 // Delete a job 
 router.delete('/:id', authenticateUser, deleteJobs)
 // Edit jobs Complete
-router.put('/:id/edit',  editJob)
+router.put('/:id/edit', authenticateUser, editJob)
 // Partial job edit
 router.patch('/:id/patch', authenticateUser, partialEdit)
 
