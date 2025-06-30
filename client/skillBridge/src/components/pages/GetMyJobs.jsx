@@ -23,7 +23,6 @@ import FullScreenLayout from "../FullScreeLayout.jsx";
 import API_BASE_URL from "../../config/api.js";
 
 const GetMyJobs = () => {
-	
 	const token = localStorage.getItem("token");
 	const navigate = useNavigate();
 
@@ -52,14 +51,11 @@ const GetMyJobs = () => {
 	const fetchJobs = async () => {
 		setLoading(true);
 		try {
-			const res = await axios.get(
-				`${API_BASE_URL}/api/jobs/my-jobs`,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
+			const res = await axios.get(`${API_BASE_URL}/api/jobs/my-jobs`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			setJobs(res.data.jobs);
 			setSnackbar({
 				open: true,
@@ -81,12 +77,9 @@ const GetMyJobs = () => {
 
 	const handleDelete = async () => {
 		try {
-			await axios.delete(
-				`${API_BASE_URL}/api/jobs/${jobToDelete}`,
-				{
-					headers: { Authorization: `Bearer ${token}` },
-				}
-			);
+			await axios.delete(`${API_BASE_URL}/api/jobs/${jobToDelete}`, {
+				headers: { Authorization: `Bearer ${token}` },
+			});
 			setSnackbar({
 				open: true,
 				message: "Job deleted successfully",
@@ -105,6 +98,24 @@ const GetMyJobs = () => {
 
 	return (
 		<FullScreenLayout>
+			{/* 👇 Back Button */}
+					<Button
+					  variant="outlined"
+					  onClick={() => navigate(-1)}
+					  sx={{
+						alignSelf: "flex-start",
+						mb: 1,
+						color: "#00e5ff",
+						borderColor: "#00bcd4",
+						textTransform: "none",
+						"&:hover": {
+						  borderColor: "#00acc1",
+						  color: "#00bcd4",
+						},
+					  }}
+					>
+					  ← Back
+					</Button>
 			<Box
 				sx={{
 					maxWidth: "900px",
@@ -114,9 +125,14 @@ const GetMyJobs = () => {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
+
+					// 🔥 Responsive paddings
+					"@media (max-width: 600px)": {
+						px: 1,
+						py: 3,
+					},
 				}}
 			>
-				
 				<Typography
 					variant="h5"
 					sx={{
@@ -128,6 +144,11 @@ const GetMyJobs = () => {
 						width: "100%",
 						borderBottom: "2px solid #00bcd4",
 						pb: 1,
+
+						// 🔥 Heading scale for mobile
+						"@media (max-width: 600px)": {
+							fontSize: "1.4rem",
+						},
 					}}
 				>
 					My Posted Jobs
@@ -136,9 +157,7 @@ const GetMyJobs = () => {
 				{loading ? (
 					<CircularProgress sx={{ color: "#00bcd4" }} />
 				) : jobs.length === 0 ? (
-					<Typography sx={{ color: "#ccc" }}>
-						No jobs found.
-					</Typography>
+					<Typography sx={{ color: "#ccc" }}>No jobs found.</Typography>
 				) : (
 					<Grid container spacing={3}>
 						{jobs.map((job) => (
@@ -148,13 +167,18 @@ const GetMyJobs = () => {
 										backgroundColor: "#142a4c",
 										color: "#e0f7fa",
 										borderRadius: 3,
-										boxShadow:
-											"0 0 20px rgba(0, 188, 212, 0.15)",
+										boxShadow: "0 0 20px rgba(0, 188, 212, 0.15)",
 										display: "flex",
 										flexDirection: "column",
 										justifyContent: "space-between",
-										height: "24vh", 
+										height: "24vh",
 										width: "50vw",
+
+										// 🔥 Responsive card tweaks
+										"@media (max-width: 600px)": {
+											width: "90vw",
+											height: "auto",
+										},
 									}}
 								>
 									<CardContent>
@@ -190,11 +214,7 @@ const GetMyJobs = () => {
 												textTransform: "none",
 												"&:hover": { color: "#00acc1" },
 											}}
-											onClick={() =>
-												navigate(
-													`/job-details/${job.id}`
-												)
-											}
+											onClick={() => navigate(`/job-details/${job.id}`)}
 										>
 											View
 										</Button>
@@ -205,9 +225,7 @@ const GetMyJobs = () => {
 												textTransform: "none",
 												"&:hover": { color: "#4dd0e1" },
 											}}
-											onClick={() =>
-												navigate(`/job-edit/${job.id}`)
-											}
+											onClick={() => navigate(`/job-edit/${job.id}`)}
 										>
 											Edit
 										</Button>
@@ -238,9 +256,7 @@ const GetMyJobs = () => {
 					onClose={() => setSnackbar({ ...snackbar, open: false })}
 				>
 					<Alert
-						onClose={() =>
-							setSnackbar({ ...snackbar, open: false })
-						}
+						onClose={() => setSnackbar({ ...snackbar, open: false })}
 						severity={snackbar.severity}
 						sx={{ width: "100%" }}
 					>
@@ -252,15 +268,12 @@ const GetMyJobs = () => {
 					<DialogTitle>Confirm Deletion</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
-							Are you sure you want to delete this job? This
-							action cannot be undone.
+							Are you sure you want to delete this job? This action cannot be
+							undone.
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
-						<Button
-							onClick={() => setOpenDialog(false)}
-							color="secondary"
-						>
+						<Button onClick={() => setOpenDialog(false)} color="secondary">
 							Cancel
 						</Button>
 						<Button onClick={handleDelete} color="error">
