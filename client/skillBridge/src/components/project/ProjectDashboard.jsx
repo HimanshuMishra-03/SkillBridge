@@ -24,7 +24,7 @@ function ProjectDashboard() {
 		const fetchProject = async () => {
 			try {
 				const res = await axios.get(
-					`${API_BASE_URL}/api/project-dashboard/${projectId}`
+					`${API_BASE_URL}/api/projects/project-dashboard/${projectId}`
 				);
 				setProjectData(res.data.project);
 			} catch (err) {

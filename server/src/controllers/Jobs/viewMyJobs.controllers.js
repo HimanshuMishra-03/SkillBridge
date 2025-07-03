@@ -28,7 +28,7 @@ const viewMyJobs = async (req, res) => {
                 return {...job, projectId: project.projectId}
 			})
 		);
-		console.log(projects)
+		// console.log(projects)
 		return res
 			.status(200)
 			.json({ message: "Here are requested jobs!", jobs:projects });
