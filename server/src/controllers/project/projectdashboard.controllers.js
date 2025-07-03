@@ -18,16 +18,18 @@ const projectDashboard = async (req, res) => {
 		const job = await prisma.job.findFirst({
 			where: { id: project.jobId },
 		});
-		return res
-			.status(200)
-			.json({
-				message: "Project Dashboard",
-				project: {
+        const upadatedProject= {
 					...project,
 					jobTitle: job.title,
 					duration: application.duration,
                     role: role
-				},
+				}
+        console.log(upadatedProject)
+		return res
+			.status(200)
+			.json({
+				message: "Project Dashboard",
+				project: upadatedProject,
 			});
 	} catch (error) {
 		console.log(error);
