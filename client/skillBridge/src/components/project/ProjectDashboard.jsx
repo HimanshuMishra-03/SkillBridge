@@ -25,7 +25,7 @@ function ProjectDashboard() {
 			try {
                 const token = localStorage.getItem("token")
 				const res = await axios.get(
-					`http://localhost:3334/api/projects/project-dashboard/${projectId}`,
+					`${API_BASE_URL}/api/projects/project-dashboard/${projectId}`,
                     {
 						headers: {
 							Authorization: `Bearer ${token}`,
