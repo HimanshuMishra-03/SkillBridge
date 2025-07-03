@@ -10,7 +10,13 @@ const app = express()
 
 app.set('trust proxy', 1);
 
-app.use(cors())
+const allowedOrigins = [  
+    "https://skill-bridge-lilac.vercel.app",
+  "http://localhost:3334"]
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true
+}))
 app.use(express.json())
 app.get('/', (req, res)=>{
     res.send("OM SHREE GANESHAY NAMAHA, server is running")
