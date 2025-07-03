@@ -24,7 +24,12 @@ function ProjectDashboard() {
 		const fetchProject = async () => {
 			try {
 				const res = await axios.get(
-					`${API_BASE_URL}/api/projects/project-dashboard/${projectId}`
+					`${API_BASE_URL}/api/projects/project-dashboard/${projectId}`,
+                    {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
 				);
 				setProjectData(res.data.project);
 			} catch (err) {
