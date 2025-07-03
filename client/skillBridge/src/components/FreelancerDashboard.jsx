@@ -84,6 +84,25 @@ function FreelancerDashboard() {
           >
             🔍 View All Available Jobs
           </Button>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              py: 3,
+              fontSize: "1.5rem",
+              borderRadius: "16px",
+              bgcolor: "#00bcd4",
+              color: "#000",
+              fontWeight: "bold",
+              width: "100%",
+              "&:hover": {
+                bgcolor: "#00acc1",
+              },
+            }}
+            onClick={() => navigate("/freelancer/view-all-applications")}
+          >
+            🔍 View All Applications
+          </Button>
 
           {/* You can add more options later like this:
           <Button

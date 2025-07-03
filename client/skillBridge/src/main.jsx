@@ -17,6 +17,10 @@ import HomePage from './components/HomePage.jsx'
 import GetMyJobs from './components/pages/GetMyJobs.jsx'
 import PostJobs from './components/pages/PostJobs.jsx'
 import GetAllJobs from './components/pages/GetAllJobs.jsx'
+import ViewMyApplication from './components/pages/ViewMyApplication.jsx'
+import ViewApplicationStatus from './components/pages/ViewApplicationStatus.jsx'
+import Project from './components/project/Project.jsx'
+import ProjectDashboard from './components/project/ProjectDashboard.jsx'
 
 const router = createBrowserRouter(
   // routing happens here 
@@ -37,6 +41,10 @@ const router = createBrowserRouter(
       <Route path='/client/my-jobs' element={<GetMyJobs />} />
       <Route path='/client/post-jobs' element={<PostJobs />} />
       <Route path='/freelancer/all-jobs' element={<GetAllJobs />} />
+      <Route path='/freelancer/view-all-applications' element={<ViewMyApplication />} />
+      <Route path='/freelancer/view-applications/:applicationId' element={<ViewApplicationStatus />} />
+      <Route path='/acceptStatus/:applicationId' element={<Project />} />
+      <Route path='/projectDashboard/:projectId' element={<ProjectDashboard />} />
     </Route>
   )
 )

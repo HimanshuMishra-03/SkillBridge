@@ -206,7 +206,7 @@ const GetMyJobs = () => {
 											{job.description}
 										</Typography>
 									</CardContent>
-									<CardActions sx={{ px: 2, pb: 2 }}>
+									{job.isAccepted === true ? <Button onClick={()=>navigate(`/projectDashboard/${job.projectId}`)}>View Project</Button> : <CardActions sx={{ px: 2, pb: 2 }}>
 										<Button
 											size="large"
 											sx={{
@@ -243,7 +243,7 @@ const GetMyJobs = () => {
 										>
 											Delete
 										</Button>
-									</CardActions>
+									</CardActions>}
 								</Card>
 							</Grid>
 						))}

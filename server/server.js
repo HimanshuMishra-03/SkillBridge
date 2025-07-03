@@ -2,6 +2,7 @@ import express from 'express'
 import AuthRoutes from './src/routes/auth.routes.js'
 import JobsRoutes from './src/routes/jobs.routes.js'
 import ApplicationRoutes from './src/routes/application.routes.js'
+import ProjectRoutes from './src/routes/projects.routes.js'
 import dotenv from 'dotenv'
 dotenv.config()
 import cors from 'cors'
@@ -18,6 +19,7 @@ app.get('/', (req, res)=>{
 app.use('/api/auth', AuthRoutes)
 app.use('/api/jobs', JobsRoutes)
 app.use('/api/applications', ApplicationRoutes)
+app.use('/api/projects', ProjectRoutes)
 
 const port = process.env.PORT
 app.listen(port, (req,res)=>{
