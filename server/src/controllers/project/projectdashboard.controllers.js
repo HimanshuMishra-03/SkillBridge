@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const projectDashboard = async (req, res) => {
 	try {
+        // console.log("Errorr Here")
 		const { projectId } = req.params;
         const {role} = req.user
 		if (!projectId)
@@ -24,7 +25,7 @@ const projectDashboard = async (req, res) => {
 					duration: application.duration,
                     role: role
 				}
-        console.log(upadatedProject)
+        // console.log(upadatedProject)
 		return res
 			.status(200)
 			.json({

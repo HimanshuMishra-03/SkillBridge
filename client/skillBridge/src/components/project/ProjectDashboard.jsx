@@ -23,14 +23,16 @@ function ProjectDashboard() {
 	useEffect(() => {
 		const fetchProject = async () => {
 			try {
+                const token = localStorage.getItem("token")
 				const res = await axios.get(
-					`${API_BASE_URL}/api/projects/project-dashboard/${projectId}`,
+					`http://localhost:3334/api/projects/project-dashboard/${projectId}`,
                     {
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},
 					}
 				);
+                console.log("Hello")
 				setProjectData(res.data.project);
 			} catch (err) {
 				setError(
@@ -56,7 +58,7 @@ function ProjectDashboard() {
 			const diff = deadline - now;
 
 			if (diff <= 0) {
-				setTimeLeft(null); // deadline passed
+				setTimeLeft(null); 
 				clearInterval(interval);
 			} else {
 				const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -137,9 +139,6 @@ function ProjectDashboard() {
 					<Typography>Status: {status}</Typography>
 					<Typography>Duration: {duration} days</Typography>
 					<Typography>Started At: {new Date(startedAt).toLocaleString()}</Typography>
-					<Typography>Client ID: {clientId}</Typography>
-					<Typography>Freelancer ID: {freelancerId}</Typography>
-					<Typography>Project ID: {id}</Typography>
 
 					<Box mt={3} sx={timeStyle}>
 						{timeLeft ? (
