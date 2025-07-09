@@ -2,9 +2,12 @@ import React from "react";
 import { jwtDecode } from "jwt-decode";
 import { Box, Typography, Button, Container, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
+import daylightTheme from "../theme";
+import FullScreenLayout from "./FullScreeLayout.jsx";
 
 function ClientDashboard() {
   const navigate = useNavigate();
+  const { colors } = daylightTheme;
   const token = localStorage.getItem("token");
 
   let decoded = {};
@@ -13,72 +16,49 @@ function ClientDashboard() {
     decoded = jwtDecode(token);
   } catch (err) {
     return (
-      <Box
-        sx={{
-          minHeight: "100vh",
-          width: "100vw",
-          bgcolor: "#0d1b2a",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          p: 3,
-        }}
-      >
-        <Typography
-          variant="h5"
-          color="#ff1744"
-          fontWeight="bold"
-          textAlign="center"
-        >
-          {token ? "Invalid token" : "Please login first"}
-        </Typography>
-      </Box>
+      <FullScreenLayout>
+        <Box textAlign="center">
+          <Typography variant="h5" color={colors.error}>
+            {token ? "Invalid token" : "Please login first"}
+          </Typography>
+        </Box>
+      </FullScreenLayout>
     );
   }
 
   if (decoded.role !== "CLIENT") {
     return (
-      <Box
-        sx={{
-          minHeight: "100vh",
-          width: "100vw",
-          bgcolor: "#0d1b2a",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          p: 3,
-        }}
-      >
-        <Typography
-          variant="h5"
-          color="#ff1744"
-          fontWeight="bold"
-          textAlign="center"
-        >
-          You are not authorised to view this page
-        </Typography>
-      </Box>
+      <FullScreenLayout>
+        <Box textAlign="center">
+          <Typography variant="h5" color={colors.error}>
+            You are not authorised to view this page
+          </Typography>
+          <Button
+            onClick={() => navigate("/login")}
+            sx={{
+              mt: 2,
+              color: colors.primary,
+              borderColor: colors.primary,
+              "&:hover": {
+                backgroundColor: colors.lightGray,
+              },
+            }}
+            variant="outlined"
+          >
+            Go Back
+          </Button>
+        </Box>
+      </FullScreenLayout>
     );
   }
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        width: "100vw",
-        bgcolor: "#0d1b2a",
-        p: 3,
-        boxSizing: "border-box",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <FullScreenLayout>
       <Container maxWidth="md">
         <Typography
           variant="h3"
           mb={6}
-          color="#00bcd4"
+          color={colors.primary}
           fontWeight="900"
           textAlign="center"
           letterSpacing={1}
@@ -94,12 +74,12 @@ function ClientDashboard() {
               py: 3,
               fontSize: "1.5rem",
               borderRadius: "16px",
-              bgcolor: "#00bcd4",
-              color: "#000",
+              bgcolor: colors.primary,
+              color: "#fff",
               fontWeight: "bold",
               width: "100%",
               "&:hover": {
-                bgcolor: "#00acc1",
+                bgcolor: colors.primaryDark,
               },
             }}
             onClick={() => navigate("/client/post-jobs")}
@@ -114,13 +94,13 @@ function ClientDashboard() {
               py: 3,
               fontSize: "1.5rem",
               borderRadius: "16px",
-              borderColor: "#00bcd4",
-              color: "#00bcd4",
+              borderColor: colors.primary,
+              color: colors.primary,
               fontWeight: "bold",
               width: "100%",
               "&:hover": {
-                bgcolor: "#00bcd4",
-                color: "#000",
+                bgcolor: colors.primary,
+                color: "#fff",
               },
             }}
             onClick={() => navigate("/client/my-jobs")}
@@ -129,7 +109,7 @@ function ClientDashboard() {
           </Button>
         </Stack>
       </Container>
-    </Box>
+    </FullScreenLayout>
   );
 }
 

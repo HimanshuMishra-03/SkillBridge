@@ -10,6 +10,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
+import FullScreenLayout from "./FullScreeLayout";
+import daylightTheme from "../theme"; // 🌈 import theme
 
 const stepsClient = [
   "Post job requirements in minutes and start receiving proposals.",
@@ -28,6 +30,7 @@ const stepsFreelancer = [
 ];
 
 const HomePage = () => {
+  const { colors } = daylightTheme;
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -42,18 +45,19 @@ const HomePage = () => {
       >
         <Box
           sx={{
-            backgroundColor: "#13294b",
+            backgroundColor: colors.lightGray,
             p: 2,
             borderRadius: 3,
             width: isMobile ? "90%" : "60%",
             mb: 3,
             ml: isMobile ? "auto" : index % 2 === 0 ? 0 : "auto",
             mr: isMobile ? "auto" : index % 2 === 0 ? "auto" : 0,
-            color: "#fff",
-            boxShadow: 3,
+            color: colors.textPrimary,
+            border: `1px solid ${colors.border}`,
+            boxShadow: "0 2px 6px rgba(0, 0, 0, 0.04)",
             transition: "transform 0.3s ease",
-            '&:hover': {
-              transform: 'translateY(-5px)',
+            "&:hover": {
+              transform: "translateY(-4px)",
             },
           }}
         >
@@ -66,29 +70,33 @@ const HomePage = () => {
   };
 
   return (
-    <>
+    <FullScreenLayout>
       {/* HERO SECTION */}
       <Box
         sx={{
-          minHeight: "100vh",
-          width: "100vw",
-          backgroundColor: "#0d1b2a",
+          width: {
+            xs: "72vw",
+            sm: "60vw",
+            md: "60vw",
+            lg: "82vw",
+          },
+          backgroundColor: colors.background,
+          py: 10,
+          px: 2.5,
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
-          px: 2,
-          boxSizing: "border-box",
+          alignItems: "center",
         }}
       >
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          style={{ width: "100%", maxWidth: 800, textAlign: "center", padding: 16 }}
+          style={{ width: "100%", maxWidth: 800, textAlign: "center" }}
         >
           <Typography
             variant={isMobile ? "h6" : "h3"}
-            sx={{ color: "#00bcd4", mb: 1 }}
+            sx={{ color: colors.primary, mb: 1 }}
           >
             Welcome to
           </Typography>
@@ -97,7 +105,7 @@ const HomePage = () => {
             variant={isMobile ? "h3" : "h1"}
             fontWeight="bold"
             sx={{
-              color: "#00bcd4",
+              color: colors.primary,
               letterSpacing: "0.1em",
               userSelect: "none",
               mb: 4,
@@ -108,7 +116,7 @@ const HomePage = () => {
 
           <Typography
             variant={isMobile ? "body1" : "h6"}
-            sx={{ color: "rgba(255, 255, 255, 0.75)", mb: 5 }}
+            sx={{ color: colors.textSecondary, mb: 5 }}
           >
             Your gateway to freelance opportunities and top talent
           </Typography>
@@ -129,9 +137,9 @@ const HomePage = () => {
                 borderRadius: 3,
                 fontWeight: "bold",
                 width: isMobile ? "100%" : "auto",
-                backgroundColor: "#00bcd4",
-                color: "#0d1b2a",
-                "&:hover": { backgroundColor: "#00acc1" },
+                backgroundColor: colors.primary,
+                color: "#fff",
+                "&:hover": { backgroundColor: colors.primaryDark },
               }}
             >
               POST A JOB
@@ -146,12 +154,12 @@ const HomePage = () => {
                 py: 1.5,
                 borderRadius: 3,
                 fontWeight: "bold",
-                borderColor: "#00bcd4",
-                color: "#00bcd4",
+                borderColor: colors.primary,
+                color: colors.primary,
                 width: isMobile ? "100%" : "auto",
                 "&:hover": {
-                  borderColor: "#00acc1",
-                  color: "#00acc1",
+                  borderColor: colors.primaryDark,
+                  color: colors.primaryDark,
                 },
               }}
             >
@@ -160,9 +168,9 @@ const HomePage = () => {
           </Stack>
 
           <Box mt={4}>
-            <Typography variant="body1" sx={{ color: "rgba(255,255,255,0.7)" }}>
-              Already registered? {" "}
-              <Link href="/login" underline="hover" sx={{ color: "#00bcd4" }}>
+            <Typography variant="body1" sx={{ color: colors.textSecondary }}>
+              Already registered?{" "}
+              <Link href="/login" underline="hover" sx={{ color: colors.primary }}>
                 Login here
               </Link>
             </Typography>
@@ -173,16 +181,19 @@ const HomePage = () => {
       {/* CLIENT SECTION */}
       <Box
         sx={{
-          minHeight: "100vh",
-          width: "100vw",
-          backgroundColor: "#101e33",
-          color: "#fff",
+          width: {
+            xs: "70vw",
+            sm: "60vw",
+            md: "60vw",
+            lg: "82vw",
+          },
+          backgroundColor: colors.card,
+          color: colors.textPrimary,
+          py: 10,
+          px: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          px: 2,
-          boxSizing: "border-box",
         }}
       >
         <motion.div
@@ -195,11 +206,11 @@ const HomePage = () => {
           <Typography
             variant={isMobile ? "h4" : "h2"}
             fontWeight="bold"
-            sx={{ color: "#00bcd4", mb: 4 }}
+            sx={{ color: colors.primary, mb: 4 }}
           >
             CLIENT
           </Typography>
-          <Typography variant="h5" sx={{ mb: 5 }}>
+          <Typography variant="h5" sx={{ mb: 5, color: colors.textSecondary }}>
             What You Can Do
           </Typography>
           {renderSteps(stepsClient)}
@@ -209,16 +220,19 @@ const HomePage = () => {
       {/* FREELANCER SECTION */}
       <Box
         sx={{
-          minHeight: "100vh",
-          width: "100vw",
-          backgroundColor: "#0b1728",
-          color: "#fff",
+          width: {
+            xs: "70vw",
+            sm: "60vw",
+            md: "60vw",
+            lg: "82vw",
+          },
+          backgroundColor: colors.background,
+          color: colors.textPrimary,
+          py: 10,
+          px: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          px: 2,
-          boxSizing: "border-box",
         }}
       >
         <motion.div
@@ -231,17 +245,17 @@ const HomePage = () => {
           <Typography
             variant={isMobile ? "h4" : "h2"}
             fontWeight="bold"
-            sx={{ color: "#00bcd4", mb: 4 }}
+            sx={{ color: colors.primary, mb: 4 }}
           >
             FREELANCER
           </Typography>
-          <Typography variant="h5" sx={{ mb: 5 }}>
+          <Typography variant="h5" sx={{ mb: 5, color: colors.textSecondary }}>
             Why You’ll Love Working Here
           </Typography>
           {renderSteps(stepsFreelancer)}
         </motion.div>
       </Box>
-    </>
+    </FullScreenLayout>
   );
 };
 

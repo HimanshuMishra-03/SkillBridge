@@ -12,10 +12,12 @@ import {
 import axios from "axios";
 import API_BASE_URL from "../../config/api";
 import FullScreenLayout from "../FullScreeLayout";
+import daylightTheme from "../../theme"; // import theme
 
 const Project = () => {
   const { applicationId } = useParams();
   const navigate = useNavigate();
+  const { colors } = daylightTheme;
 
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -68,83 +70,76 @@ const Project = () => {
   return (
     <FullScreenLayout>
       <Box
-      sx={{
-        // bgcolor: "#0f223f",
-        minHeight: "100vh",
-        color: "#e0f7fa",
-        px: 3,
-        py: 5,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {loading ? (
-        <CircularProgress sx={{ color: "#00e5ff" }} />
-      ) : project ? (
-        <Paper
-          elevation={5}
-          sx={{
-            p: 4,
-            borderRadius: 3,
-            backgroundColor: "#142a4c",
-            color: "#e0f7fa",
-            // boxShadow: "0 0 30px rgba(0, 229, 255, 0.15)",
-            maxWidth: 600,
-          }}
-        >
-          <Typography variant="h4" sx={{ mb: 2, color: "#00e5ff" }}>
-            🎉 Project Created!
-          </Typography>
-
-          {/* <Typography sx={{ mb: 1 }}>
-            <strong>Project ID:</strong> {project.projectId}
-          </Typography> */}
-          <Typography sx={{ mb: 1 }}>
-            <strong>Status:</strong> {project.status}
-          </Typography>
-          {/* <Typography sx={{ mb: 1 }}>
-            <strong>Freelancer ID:</strong> {project.freelancerId}
-          </Typography> */}
-          {/* <Typography sx={{ mb: 1 }}>
-            <strong>Client ID:</strong> {project.clientId}
-          </Typography> */}
-
-          <Button
-            variant="outlined"
-            sx={{
-              mt: 3,
-              textTransform: "none",
-              color: "#00e5ff",
-              borderColor: "#00bcd4",
-              "&:hover": {
-                borderColor: "#00acc1",
-                color: "#00bcd4",
-              },
-            }}
-            onClick={() => navigate(`/projectDashboard/${project.projectId}`)}
-          >
-            Go to Project Dashboard →
-          </Button>
-        </Paper>
-      ) : (
-        <Typography variant="h6">Something went wrong.</Typography>
-      )}
-
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={4000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        sx={{
+          minHeight: "100vh",
+          color: colors.textPrimary,
+          px: 3,
+          py: 5,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <Alert
+        {loading ? (
+          <CircularProgress sx={{ color: colors.primary }} />
+        ) : project ? (
+          <Paper
+            elevation={5}
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              backgroundColor: colors.card,
+              color: colors.textPrimary,
+              maxWidth: 600,
+              border: `1px solid ${colors.border}`,
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+            }}
+          >
+            <Typography variant="h4" sx={{ mb: 2, color: colors.primary }}>
+              🎉 Project Created!
+            </Typography>
+
+            <Typography sx={{ mb: 1 }}>
+              <strong>Status:</strong> {project.status}
+            </Typography>
+
+            <Button
+              variant="outlined"
+              sx={{
+                mt: 3,
+                textTransform: "none",
+                color: colors.primary,
+                borderColor: colors.primary,
+                "&:hover": {
+                  borderColor: colors.primaryDark,
+                  color: colors.primaryDark,
+                },
+              }}
+              onClick={() => navigate(`/projectDashboard/${project.projectId}`)}
+            >
+              Go to Project Dashboard →
+            </Button>
+          </Paper>
+        ) : (
+          <Typography variant="h6" color={colors.error}>
+            Something went wrong.
+          </Typography>
+        )}
+
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={4000}
           onClose={() => setSnackbar({ ...snackbar, open: false })}
-          severity={snackbar.severity}
-          sx={{ width: "100%" }}
         >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
-    </Box>
+          <Alert
+            onClose={() => setSnackbar({ ...snackbar, open: false })}
+            severity={snackbar.severity}
+            sx={{ width: "100%" }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
+      </Box>
     </FullScreenLayout>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate, Link } from "react-router"; 
+import { useNavigate, Link } from "react-router";
 import {
 	Box,
 	Button,
@@ -14,6 +14,7 @@ import FullScreenLayout from "./FullScreeLayout.jsx";
 import API_BASE_URL from "../config/api.js";
 
 function Login() {
+	const [loading, setLoading] = useState(false)
 	const [formData, setFormData] = useState({
 		identifier: "",
 		password: "",
@@ -33,7 +34,9 @@ function Login() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true)
 		try {
+			
 			const response = await axios.post(
 				`${API_BASE_URL}/api/auth/login`,
 				formData
@@ -59,6 +62,8 @@ function Login() {
 					"Login failed",
 				severity: "error",
 			});
+		}finally{
+			setLoading(false)
 		}
 	};
 
@@ -68,52 +73,56 @@ function Login() {
 
 	return (
 		<FullScreenLayout>
-					{/* 👇 Back Button */}
-					<Button
-					  variant="outlined"
-					  onClick={() => navigate(-1)}
-					  sx={{
-						alignSelf: "flex-start",
-						mb: 1,
-						color: "#00e5ff",
-						borderColor: "#00bcd4",
-						textTransform: "none",
-						"&:hover": {
-						  borderColor: "#00acc1",
-						  color: "#00bcd4",
-						},
-					  }}
-					>
-					  ← Back
-					</Button>
+			<Button
+				variant="outlined"
+				onClick={() => navigate(-1)}
+				sx={{
+					alignSelf: "flex-start",
+					mb: 2,
+					color: "#3B82F6",
+					borderColor: "#3B82F6",
+					textTransform: "none",
+					fontWeight: 500,
+					"&:hover": {
+						borderColor: "#2563EB",
+						color: "#2563EB",
+					},
+				}}
+			>
+				← Back
+			</Button>
+
 			<Box
 				component="form"
 				onSubmit={handleSubmit}
 				sx={{
 					width: {
-						xs: "90vw",
-						sm: "80vw",
-						md: "25vw",
+						xs: "70vw",
+						sm: "50vw",
+						md: "30vw",
+						lg: "25vw",
 					},
-					backgroundColor: "#142a4c",
+					backgroundColor: "#FFFFFF", // Cloud Gray
 					padding: {
 						xs: 3,
 						sm: 4,
 					},
 					borderRadius: 2,
-					boxShadow: "0 0 15px rgba(0,0,0,0.6)",
+					border: "1px solid #E5E7EB", // Silver Mist
+					boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
 					display: "flex",
 					flexDirection: "column",
 					gap: 2,
 					mx: "auto",
+					color: "#111827", // Charcoal Black
 				}}
 			>
 				<Typography
 					variant="h4"
 					align="center"
 					fontWeight="bold"
-					color="#00bcd4"
-					sx={{ fontSize: { xs: "1.8rem", sm: "2rem" } }}
+					color="#3B82F6"
+					sx={{ fontSize: { xs: "1.8rem", sm: "2rem" }, mb: 1 }}
 				>
 					Login
 				</Typography>
@@ -125,13 +134,8 @@ function Login() {
 					onChange={handleChange}
 					required
 					fullWidth
-					variant="filled"
-					InputProps={{ style: { color: "#e0f7fa" } }}
-					InputLabelProps={{ style: { color: "#80deea" } }}
-					sx={{
-						backgroundColor: "#0d1b2a",
-						borderRadius: 1,
-					}}
+					variant="outlined"
+					InputLabelProps={{ style: { color: "#6B7280" } }} // Cool Gray
 				/>
 
 				<TextField
@@ -142,13 +146,8 @@ function Login() {
 					onChange={handleChange}
 					required
 					fullWidth
-					variant="filled"
-					InputProps={{ style: { color: "#e0f7fa" } }}
-					InputLabelProps={{ style: { color: "#80deea" } }}
-					sx={{
-						backgroundColor: "#0d1b2a",
-						borderRadius: 1,
-					}}
+					variant="outlined"
+					InputLabelProps={{ style: { color: "#6B7280" } }}
 				/>
 
 				<Button
@@ -156,30 +155,31 @@ function Login() {
 					variant="contained"
 					fullWidth
 					size="large"
+					disabled={loading}
 					sx={{
-						backgroundColor: "#00bcd4",
-						color: "#0d1b2a",
+						backgroundColor: "#3B82F6",
+						color: "#FFFFFF",
 						fontWeight: "bold",
-						"&:hover": { backgroundColor: "#00acc1" },
+						"&:hover": { backgroundColor: "#2563EB" },
 					}}
 				>
 					Login
 				</Button>
 
-				<Typography variant="body2" align="center" color="#e0f7fa">
+				<Typography variant="body2" align="center" color="#6B7280">
 					<Link
 						to="/forgot-password"
-						style={{ textDecoration: "none", color: "#00bcd4" }}
+						style={{ textDecoration: "none", color: "#3B82F6" }}
 					>
 						Forgot Password?
 					</Link>
 				</Typography>
 
-				<Typography variant="body2" align="center" color="#e0f7fa">
+				<Typography variant="body2" align="center" color="#6B7280">
 					Don’t have an account?{" "}
 					<Link
 						to="/register"
-						style={{ textDecoration: "none", color: "#00bcd4" }}
+						style={{ textDecoration: "none", color: "#3B82F6" }}
 					>
 						Register
 					</Link>
@@ -194,7 +194,12 @@ function Login() {
 					<Alert
 						onClose={handleCloseSnackbar}
 						severity={snackbar.severity}
-						sx={{ width: "100%" }}
+						sx={{
+							width: "100%",
+							backgroundColor:
+								snackbar.severity === "success" ? "#10B981" : "#EF4444",
+							color: "#FFFFFF",
+						}}
 					>
 						{snackbar.message}
 					</Alert>

@@ -16,7 +16,11 @@ const viewAllJobs = async (req, res) => {
 		const jobs = await prisma.job.findMany({
             orderBy: {createdAt: 'desc'}
         });
-
+		// const updatedJobs = await Promise.all(
+		// 	jobs.map((job)=>(
+		// 		job.deadline
+		// 	))
+		// )
 		return res.status(200).json({ message: "Viewing all jobs", jobs });
 	} catch (error) {
 		console.log(error);

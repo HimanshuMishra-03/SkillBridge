@@ -12,7 +12,7 @@ app.set('trust proxy', 1);
 
 const allowedOrigins = [  
     "https://skill-bridge-lilac.vercel.app",
-  "http://localhost:3334"]
+  "http://localhost:5173"]
 app.use(cors({
     origin: allowedOrigins,
     credentials: true

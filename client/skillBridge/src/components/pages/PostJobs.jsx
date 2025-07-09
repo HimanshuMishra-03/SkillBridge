@@ -11,6 +11,9 @@ import {
 import { jwtDecode } from "jwt-decode";
 import API_BASE_URL from "../../config/api";
 import FullScreenLayout from "../FullScreeLayout";
+import theme from "../../theme";
+
+const { colors } = theme;
 
 const PostJobs = () => {
 	const [decoded, setDecoded] = useState(null);
@@ -81,7 +84,7 @@ const PostJobs = () => {
 	if (error) {
 		return (
 			<FullScreenLayout>
-				<Typography variant="h5" color="#ff1744" textAlign="center">
+				<Typography variant="h5" color={colors.error} textAlign="center">
 					{error}
 				</Typography>
 			</FullScreenLayout>
@@ -91,7 +94,7 @@ const PostJobs = () => {
 	if (!decoded) {
 		return (
 			<FullScreenLayout>
-				<Typography variant="h5" color="#00bcd4" textAlign="center">
+				<Typography variant="h5" color={colors.primary} textAlign="center">
 					Loading...
 				</Typography>
 			</FullScreenLayout>
@@ -107,6 +110,8 @@ const PostJobs = () => {
 					justifyContent: "center",
 					height: "100%",
 					width: "100%",
+					bgcolor: colors.background,
+					color: colors.textPrimary,
 				}}
 			>
 				<Box
@@ -116,15 +121,14 @@ const PostJobs = () => {
 					borderRadius={3}
 					boxShadow={4}
 					sx={{
-						backgroundColor: "#142a4c",
-						color: "#fff",
+						backgroundColor: colors.card,
 					}}
 				>
 					<Typography
 						variant="h5"
 						mb={3}
 						align="center"
-						color="#00bcd4"
+						color={colors.primary}
 						fontWeight="bold"
 					>
 						Post a Job
@@ -139,8 +143,8 @@ const PostJobs = () => {
 							margin="normal"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							InputLabelProps={{ style: { color: "#ccc" } }}
-							InputProps={{ style: { color: "#fff" } }}
+							InputLabelProps={{ style: { color: colors.textSecondary } }}
+							InputProps={{ style: { color: colors.textPrimary } }}
 						/>
 
 						<TextField
@@ -153,8 +157,8 @@ const PostJobs = () => {
 							margin="normal"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
-							InputLabelProps={{ style: { color: "#ccc" } }}
-							InputProps={{ style: { color: "#fff" } }}
+							InputLabelProps={{ style: { color: colors.textSecondary } }}
+							InputProps={{ style: { color: colors.textPrimary } }}
 						/>
 
 						<TextField
@@ -166,8 +170,8 @@ const PostJobs = () => {
 							margin="normal"
 							value={budget}
 							onChange={(e) => setBudget(e.target.value)}
-							InputLabelProps={{ style: { color: "#ccc" } }}
-							InputProps={{ style: { color: "#fff" } }}
+							InputLabelProps={{ style: { color: colors.textSecondary } }}
+							InputProps={{ style: { color: colors.textPrimary } }}
 						/>
 
 						<TextField
@@ -179,9 +183,9 @@ const PostJobs = () => {
 							margin="normal"
 							InputLabelProps={{
 								shrink: true,
-								style: { color: "#ccc" },
+								style: { color: colors.textSecondary },
 							}}
-							InputProps={{ style: { color: "#fff" } }}
+							InputProps={{ style: { color: colors.textPrimary } }}
 							value={deadline}
 							onChange={(e) => setDeadline(e.target.value)}
 						/>
@@ -193,10 +197,10 @@ const PostJobs = () => {
 							sx={{
 								mt: 3,
 								fontWeight: "bold",
-								bgcolor: "#00bcd4",
+								bgcolor: colors.primary,
 								color: "#000",
 								"&:hover": {
-									bgcolor: "#00acc1",
+									bgcolor: colors.primaryDark,
 								},
 							}}
 						>

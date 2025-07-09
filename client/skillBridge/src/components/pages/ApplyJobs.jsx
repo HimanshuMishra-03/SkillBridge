@@ -11,10 +11,13 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import API_BASE_URL from "../../config/api";
-import FullScreenLayout from "../FullScreeLayout"; // ✅ Add the layout import
+import FullScreenLayout from "../FullScreeLayout";
+import theme from "../../theme"; // 🌈 Theme imported
 
 function ApplyJobs() {
   const { id: jobId } = useParams();
+  const { colors } = theme;
+
   const [formData, setFormData] = useState({
     coverLetter: "",
     proposedBudget: "",
@@ -29,7 +32,6 @@ function ApplyJobs() {
   const [error, setError] = useState("");
   const [ready, setReady] = useState(false);
 
-  // ✅ Handle token + decoding safely
   useEffect(() => {
     const t = localStorage.getItem("token");
     if (!t) {
@@ -94,8 +96,7 @@ function ApplyJobs() {
           minHeight: "50vh",
           py: 5,
           px: 2,
-          color: "#e0f7fa",
-          // background: "linear-gradient(to bottom, #0f2027, #203a43, #2c5364)",
+          color: colors.textPrimary,
         }}
       >
         <Box
@@ -104,11 +105,9 @@ function ApplyJobs() {
             mx: "auto",
             p: 4,
             borderRadius: 4,
-            backgroundColor: "#142a4c",
-            boxShadow: "0 0 15px rgba(0,0,0,0.6)",
-            // boxShadow: "0 8px 30px rgba(0,229,255,0.05)",
-            // border: "1px solid rgba(0,229,255,0.2)",
-            // backdropFilter: "blur(10px)",
+            backgroundColor: colors.card,
+            boxShadow: "0 0 15px rgba(0,0,0,0.1)",
+            border: `1px solid ${colors.border}`,
           }}
         >
           <Typography
@@ -117,8 +116,7 @@ function ApplyJobs() {
             align="center"
             sx={{
               fontWeight: 700,
-              color: "#00e5ff",
-              // textShadow: "0 0 10px rgba(0,229,255,0.6)",
+              color: colors.primary,
               mb: 3,
             }}
           >
@@ -137,14 +135,12 @@ function ApplyJobs() {
               rows={4}
               margin="normal"
               required
-              InputLabelProps={{ style: { color: "#00e5ff" } }}
-              InputProps={{
-                style: { color: "#e0f7fa" },
-              }}
+              InputLabelProps={{ style: { color: colors.primary } }}
+              InputProps={{ style: { color: colors.textPrimary } }}
               sx={{
-								backgroundColor: "#0d1b2a",
-								borderRadius: 1,
-							}}
+                backgroundColor: colors.lightGray,
+                borderRadius: 1,
+              }}
             />
             <TextField
               fullWidth
@@ -156,14 +152,12 @@ function ApplyJobs() {
               onChange={handleChange}
               margin="normal"
               required
-              InputLabelProps={{ style: { color: "#00e5ff" } }}
-              InputProps={{
-                style: { color: "#e0f7fa" },
-              }}
+              InputLabelProps={{ style: { color: colors.primary } }}
+              InputProps={{ style: { color: colors.textPrimary } }}
               sx={{
-								backgroundColor: "#0d1b2a",
-								borderRadius: 1,
-							}}
+                backgroundColor: colors.lightGray,
+                borderRadius: 1,
+              }}
             />
             <TextField
               fullWidth
@@ -175,27 +169,24 @@ function ApplyJobs() {
               onChange={handleChange}
               margin="normal"
               required
-              InputLabelProps={{ style: { color: "#00e5ff" } }}
-              InputProps={{
-                style: { color: "#e0f7fa" },
-              }}
+              InputLabelProps={{ style: { color: colors.primary } }}
+              InputProps={{ style: { color: colors.textPrimary } }}
               sx={{
-								backgroundColor: "#0d1b2a",
-								borderRadius: 1,
-							}}
+                backgroundColor: colors.lightGray,
+                borderRadius: 1,
+              }}
             />
             <Button
               variant="contained"
-              color="primary"
               type="submit"
               fullWidth
               sx={{
                 mt: 3,
-                backgroundColor: "#00e5ff",
-                color: "#001f3f",
+                backgroundColor: colors.primary,
+                color: colors.card,
                 fontWeight: 600,
                 "&:hover": {
-                  backgroundColor: "#00bcd7",
+                  backgroundColor: colors.primaryDark,
                 },
               }}
             >

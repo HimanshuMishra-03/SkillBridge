@@ -11,11 +11,14 @@ import {
 } from "@mui/material";
 import FullScreenLayout from "./FullScreeLayout.jsx";
 import API_BASE_URL from "../config/api.js";
+import daylightTheme from "../theme";
 
 function ResetPassword() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const token = searchParams.get("token");
+
+  const { colors } = daylightTheme;
 
   const [formData, setFormData] = useState({
     password: "",
@@ -73,44 +76,60 @@ function ResetPassword() {
 
   return (
     <FullScreenLayout>
-              {/* 👇 Back Button */}
-              <Button
-                variant="outlined"
-                onClick={() => navigate(-1)}
-                sx={{
-                  alignSelf: "flex-start",
-                  mb: 1,
-                  color: "#00e5ff",
-                  borderColor: "#00bcd4",
-                  textTransform: "none",
-                  "&:hover": {
-                    borderColor: "#00acc1",
-                    color: "#00bcd4",
-                  },
-                }}
-              >
-                ← Back
-              </Button>
+      <Button
+        variant="outlined"
+        onClick={() => navigate(-1)}
+        sx={{
+          alignSelf: "flex-start",
+          mb: 1,
+          color: colors.accent,
+          borderColor: colors.primary,
+          textTransform: "none",
+          "&:hover": {
+            borderColor: colors.primaryDark,
+            color: colors.primary,
+          },
+          
+        }}
+      >
+        ← Back
+      </Button>
       <Box
         component="form"
         onSubmit={handleSubmit}
-        maxWidth={400}
-        width="100%"
         display="flex"
         flexDirection="column"
         gap={2}
         sx={{
-          backgroundColor: "#142a4c",
+          backgroundColor: colors.card,
           padding: 4,
           borderRadius: 2,
           boxShadow: "0 0 15px rgba(0,0,0,0.6)",
+          marginLeft: {
+            xs: "2vw",
+            sm: "18vw",
+            md: "25vw",
+            lg: "27vw",
+          },
+          width: {
+            xs: "70vw",
+            sm: "50vw",
+            md: "40vw",
+            lg: "27vw",
+          },
+          height: {
+            xs: "40vh",
+            sm: "30vh",
+            md: "25vh",
+            lg: "40vh",
+          },
         }}
       >
         <Typography
           variant="h5"
           textAlign="center"
           fontWeight="bold"
-          color="#00bcd4"
+          color={colors.primary}
         >
           Reset Password
         </Typography>
@@ -124,9 +143,9 @@ function ResetPassword() {
           value={formData.password}
           onChange={handleChange}
           variant="filled"
-          InputProps={{ style: { color: "#e0f7fa" } }}
-          InputLabelProps={{ style: { color: "#80deea" } }}
-          sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+          InputProps={{ style: { color: colors.textInput } }}
+          InputLabelProps={{ style: { color: colors.textLabel } }}
+          sx={{ backgroundColor: colors.inputBackground, borderRadius: 1 }}
         />
 
         <TextField
@@ -138,9 +157,9 @@ function ResetPassword() {
           value={formData.confirmPassword}
           onChange={handleChange}
           variant="filled"
-          InputProps={{ style: { color: "#e0f7fa" } }}
-          InputLabelProps={{ style: { color: "#80deea" } }}
-          sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+          InputProps={{ style: { color: colors.textInput } }}
+          InputLabelProps={{ style: { color: colors.textLabel } }}
+          sx={{ backgroundColor: colors.inputBackground, borderRadius: 1 }}
         />
 
         <Button
@@ -149,10 +168,10 @@ function ResetPassword() {
           fullWidth
           size="large"
           sx={{
-            backgroundColor: "#00bcd4",
-            color: "#0d1b2a",
+            backgroundColor: colors.primary,
+            color: colors.buttonText,
             fontWeight: "bold",
-            "&:hover": { backgroundColor: "#00acc1" },
+            "&:hover": { backgroundColor: colors.primaryDark },
           }}
         >
           Reset Password

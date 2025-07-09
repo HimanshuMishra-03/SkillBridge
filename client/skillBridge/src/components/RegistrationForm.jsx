@@ -15,13 +15,14 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router";
 import API_BASE_URL from "../config/api";
 import FullScreenLayout from "./FullScreeLayout";
+import daylightTheme from "../theme";
 
 function RegistrationForm() {
 	const location = useLocation();
 	const navigate = useNavigate();
-
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+	const { colors } = daylightTheme;
 
 	const searchParams = new URLSearchParams(location.search);
 	const initialRole =
@@ -39,6 +40,7 @@ function RegistrationForm() {
 		skills: "",
 	});
 
+	const [loading, setLoading] = useState(false)
 	const [message, setMessage] = useState("");
 	const [open, setOpen] = useState(false);
 	const [severity, setSeverity] = useState("success");
@@ -50,6 +52,7 @@ function RegistrationForm() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true)
 		try {
 			const payload = {
 				username: formData.username,
@@ -61,9 +64,7 @@ function RegistrationForm() {
 				}),
 				...(formData.role === "FREELANCER" && {
 					bio: formData.bio,
-					skills: formData.skills
-						.split(",")
-						.map((skill) => skill.trim()),
+					skills: formData.skills.split(",").map((skill) => skill.trim()),
 				}),
 			};
 
@@ -91,6 +92,8 @@ function RegistrationForm() {
 			);
 			setSeverity("error");
 			setOpen(true);
+		}finally{
+			setLoading(false)
 		}
 	};
 
@@ -102,12 +105,12 @@ function RegistrationForm() {
 				sx={{
 					alignSelf: "flex-start",
 					mb: 2,
-					color: "#00e5ff",
-					borderColor: "#00bcd4",
+					color: colors.primary,
+					borderColor: colors.primary,
 					textTransform: "none",
 					"&:hover": {
-						borderColor: "#00acc1",
-						color: "#00bcd4",
+						borderColor: colors.primaryDark,
+						color: colors.primaryDark,
 					},
 				}}
 			>
@@ -117,15 +120,16 @@ function RegistrationForm() {
 				component="form"
 				onSubmit={handleSubmit}
 				sx={{
-					width: isMobile ? "90%" : "100%",
+					width: isMobile ? "72vw" : "86vw",
 					maxWidth: 450,
 					mx: "auto",
-					backgroundColor: "#142a4c",
+					backgroundColor: colors.backgroundDark,
 					padding: isMobile ? 3 : 5,
 					borderRadius: 2,
 					boxShadow: "0 0 15px rgba(0,0,0,0.6)",
 					display: "flex",
 					flexDirection: "column",
+					overflowX: "hidden",
 					gap: 2,
 					mt: isMobile ? 4 : 6,
 					mb: isMobile ? 4 : 6,
@@ -135,7 +139,7 @@ function RegistrationForm() {
 					variant="h5"
 					align="center"
 					fontWeight="bold"
-					color="#00bcd4"
+					color={colors.primary}
 				>
 					Register
 				</Typography>
@@ -148,14 +152,14 @@ function RegistrationForm() {
 					onChange={handleChange}
 					fullWidth
 					variant="filled"
-					InputProps={{ style: { color: "#e0f7fa" } }}
-					InputLabelProps={{ style: { color: "#80deea" } }}
-					sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+					InputProps={{ style: { color: colors.textPrimary } }}
+					InputLabelProps={{ style: { color: colors.textSecondary } }}
+					sx={{ backgroundColor: colors.card, borderRadius: 1 }}
 				>
-					<MenuItem value="CLIENT" sx={{ color: "#00bcd4" }}>
+					<MenuItem value="CLIENT" sx={{ color: colors.primary }}>
 						Client
 					</MenuItem>
-					<MenuItem value="FREELANCER" sx={{ color: "#00bcd4" }}>
+					<MenuItem value="FREELANCER" sx={{ color: colors.primary }}>
 						Freelancer
 					</MenuItem>
 				</TextField>
@@ -168,9 +172,9 @@ function RegistrationForm() {
 					required
 					fullWidth
 					variant="filled"
-					InputProps={{ style: { color: "#e0f7fa" } }}
-					InputLabelProps={{ style: { color: "#80deea" } }}
-					sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+					InputProps={{ style: { color: colors.textPrimary } }}
+					InputLabelProps={{ style: { color: colors.textSecondary } }}
+					sx={{ backgroundColor: colors.card, borderRadius: 1 }}
 				/>
 
 				<TextField
@@ -182,9 +186,9 @@ function RegistrationForm() {
 					required
 					fullWidth
 					variant="filled"
-					InputProps={{ style: { color: "#e0f7fa" } }}
-					InputLabelProps={{ style: { color: "#80deea" } }}
-					sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+					InputProps={{ style: { color: colors.textPrimary } }}
+					InputLabelProps={{ style: { color: colors.textSecondary } }}
+					sx={{ backgroundColor: colors.card, borderRadius: 1 }}
 				/>
 
 				<TextField
@@ -196,9 +200,9 @@ function RegistrationForm() {
 					required
 					fullWidth
 					variant="filled"
-					InputProps={{ style: { color: "#e0f7fa" } }}
-					InputLabelProps={{ style: { color: "#80deea" } }}
-					sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+					InputProps={{ style: { color: colors.textPrimary } }}
+					InputLabelProps={{ style: { color: colors.textSecondary } }}
+					sx={{ backgroundColor: colors.card, borderRadius: 1 }}
 				/>
 
 				{formData.role === "CLIENT" && (
@@ -209,9 +213,9 @@ function RegistrationForm() {
 						onChange={handleChange}
 						fullWidth
 						variant="filled"
-						InputProps={{ style: { color: "#e0f7fa" } }}
-						InputLabelProps={{ style: { color: "#80deea" } }}
-						sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+						InputProps={{ style: { color: colors.textPrimary } }}
+						InputLabelProps={{ style: { color: colors.textSecondary } }}
+						sx={{ backgroundColor: colors.card, borderRadius: 1 }}
 					/>
 				)}
 
@@ -226,9 +230,9 @@ function RegistrationForm() {
 							minRows={3}
 							fullWidth
 							variant="filled"
-							InputProps={{ style: { color: "#e0f7fa" } }}
-							InputLabelProps={{ style: { color: "#80deea" } }}
-							sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+							InputProps={{ style: { color: colors.textPrimary } }}
+							InputLabelProps={{ style: { color: colors.textSecondary } }}
+							sx={{ backgroundColor: colors.card, borderRadius: 1 }}
 						/>
 						<TextField
 							label="Skills (comma-separated)"
@@ -237,9 +241,9 @@ function RegistrationForm() {
 							onChange={handleChange}
 							fullWidth
 							variant="filled"
-							InputProps={{ style: { color: "#e0f7fa" } }}
-							InputLabelProps={{ style: { color: "#80deea" } }}
-							sx={{ backgroundColor: "#0d1b2a", borderRadius: 1 }}
+							InputProps={{ style: { color: colors.textPrimary } }}
+							InputLabelProps={{ style: { color: colors.textSecondary } }}
+							sx={{ backgroundColor: colors.card, borderRadius: 1 }}
 						/>
 					</>
 				)}
@@ -248,24 +252,25 @@ function RegistrationForm() {
 					type="submit"
 					variant="contained"
 					fullWidth
+					disabled={loading}
 					size="large"
 					sx={{
-						backgroundColor: "#00bcd4",
-						color: "#0d1b2a",
+						backgroundColor: colors.primary,
+						color: colors.background,
 						fontWeight: "bold",
-						"&:hover": { backgroundColor: "#00acc1" },
+						"&:hover": { backgroundColor: colors.primaryDark },
 					}}
 				>
 					Register
 				</Button>
 
-				<Typography variant="body2" align="center" color="#e0f7fa">
+				<Typography variant="body2" align="center" color={colors.textPrimary}>
 					Already have an account? {" "}
 					<Link
 						component="button"
 						onClick={() => navigate("/login")}
 						underline="hover"
-						sx={{ color: "#00bcd4", fontWeight: "bold" }}
+						sx={{ color: colors.primary, fontWeight: "bold" }}
 					>
 						Login
 					</Link>

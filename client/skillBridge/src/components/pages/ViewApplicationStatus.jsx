@@ -11,12 +11,11 @@ import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import FullScreenLayout from "../FullScreeLayout";
 import API_BASE_URL from "../../config/api";
-
-
+import theme from "../../theme"; // ⬅️ Import theme
 
 const ViewApplicationStatus = () => {
-  const navigate = useNavigate()
-  const {applicationId} = useParams() 
+  const navigate = useNavigate();
+  const { applicationId } = useParams();
 
   const [application, setApplication] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +31,8 @@ const ViewApplicationStatus = () => {
         }
 
         const res = await axios.get(
-          `${API_BASE_URL}/api/applications/status/${applicationId}`, {
+          `${API_BASE_URL}/api/applications/status/${applicationId}`,
+          {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
@@ -61,21 +61,21 @@ const ViewApplicationStatus = () => {
   return (
     <FullScreenLayout>
       <Box p={4}>
-        <Typography variant="h4" mb={3} color="#00e5ff">
+        <Typography variant="h4" mb={3} color={theme.colors.primary}>
           Application Status
         </Typography>
 
         {loading ? (
-          <CircularProgress color="info" />
+          <CircularProgress sx={{ color: theme.colors.primary }} />
         ) : application ? (
           <Box
             sx={{
-              border: "1px solid #00e5ff",
+              border: `1px solid ${theme.colors.primary}`,
               borderRadius: 3,
               padding: 3,
-              background: "#0f1c2e",
-              boxShadow: "0 0 10px rgba(0,229,255,0.3)",
-              color: "#e0f7fa",
+              background: theme.colors.background,
+              boxShadow: "0 0 10px rgba(59,130,246,0.3)",
+              color: theme.colors.textPrimary,
             }}
           >
             <Typography variant="h6" mb={2}>
@@ -92,23 +92,44 @@ const ViewApplicationStatus = () => {
               {application.coverLetter}
             </Typography>
 
-            {application.status === "ACCEPTED" ? <Button onClick={()=>navigate(`/projectDashboard/${application.projectId}`)}>Go To Project Dashboard</Button> : <Button
-              variant="contained"
-              sx={{
-                mt: 3,
-                backgroundColor: "#00e5ff",
-                color: "#000",
-                "&:hover": {
-                  backgroundColor: "#1de9b6",
-                },
-              }}
-              onClick={() => navigate(-1)}
-            >
-              Back to My Applications
-            </Button>}
+            {application.status === "ACCEPTED" ? (
+              <Button
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  textTransform: "none",
+                  bgcolor: theme.colors.primary,
+                  color: "#fff",
+                  "&:hover": {
+                    bgcolor: theme.colors.primaryDark,
+                  },
+                }}
+                onClick={() => navigate(`/projectDashboard/${application.projectId}`)}
+              >
+                Go To Project Dashboard →
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  backgroundColor: theme.colors.primary,
+                  color: "#fff",
+                  textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: theme.colors.primaryDark,
+                  },
+                }}
+                onClick={() => navigate(-1)}
+              >
+                Back to My Applications
+              </Button>
+            )}
           </Box>
         ) : (
-          <Typography>No application data found!</Typography>
+          <Typography color={theme.colors.error}>
+            No application data found!
+          </Typography>
         )}
       </Box>
 
