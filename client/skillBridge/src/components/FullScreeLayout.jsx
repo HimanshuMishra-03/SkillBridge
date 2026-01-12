@@ -10,7 +10,7 @@ const FullScreenLayout = ({ children }) => {
     <Box
       sx={{
         minHeight: "100vh",
-        width: "99vw",
+        width: "100%",
         backgroundColor: colors.background,
         display: "flex",
         alignItems: "center",

@@ -19,7 +19,7 @@ app.use(cors({
 }))
 app.use(express.json())
 app.get('/', (req, res)=>{
-    res.send("OM SHREE GANESHAY NAMAHA, server is running")
+    res.send("OM SHREE GANESHAY NAMAHA, server is running!")
 })
 
 app.use('/api/auth', AuthRoutes)

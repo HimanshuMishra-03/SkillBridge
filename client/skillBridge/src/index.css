@@ -24,10 +24,29 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Prevent layout shifts from images and media */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Avoid long words or code causing overflow */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
 }
 
 h1 {

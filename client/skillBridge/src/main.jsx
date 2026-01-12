@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router'
+import Layout from './components/Layout.jsx'
 import Login from './components/Login.jsx'
 import RegistrationForm from './components/RegistrationForm.jsx'
 import ForgotPassword from './components/ForgotPassword.jsx'
@@ -23,10 +24,9 @@ import Project from './components/project/Project.jsx'
 import ProjectDashboard from './components/project/ProjectDashboard.jsx'
 
 const router = createBrowserRouter(
-  // routing happens here 
   createRoutesFromElements(
-    <Route>
-      <Route path='/' element={<HomePage />} />
+    <Route element={<Layout />}>
+      <Route index element={<HomePage />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<RegistrationForm />} />
       <Route path='/forgot-password' element={<ForgotPassword />} />
